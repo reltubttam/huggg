@@ -1,0 +1,40 @@
+version: '3'
+
+services:
+  app:
+    image: huggg
+    volumes:
+      - ./:/dist/
+    ports:
+      - 3000:3000
+    command: node .
+    depends_on:
+      - postgres
+    build:
+      context: .
+      dockerfile: ./main.Dockerfile
+    environment:
+      POSTGRES_URL: postgres://service:service@postgres:5432/huggg
+      PORT: 3000
+  migrations:
+    image: migrations
+    volumes:
+      - ./:/dist/
+    depends_on:
+      - postgres
+      - app
+    build:
+      context: .
+      dockerfile: ./migrations.Dockerfile
+    environment:
+      POSTGRES_URL: postgres://service:service@postgres:5432/huggg
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: trust
+      POSTGRES_USER: service
+      POSTGRES_PASSWORD: service
+      POSTGRES_DB: huggg
+    ports:
+      - 5432:5432
+  

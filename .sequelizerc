@@ -1,0 +1,9 @@
+require('dotenv').config();
+const path = require('path');
+const config = require('./app/config');
+
+module.exports = {
+  config: path.resolve('db', 'sequelizeConfig.json'),
+  url: config.POSTGRES_URL,
+  'migrations-path': path.resolve('migrations'),
+};

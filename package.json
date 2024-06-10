@@ -1,0 +1,35 @@
+{
+  "name": "huggg",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "npm run test:unit && npm run lint",
+    "start": "docker-compose up --build",
+    "db:migrate": "sequelize-cli db:migrate",
+    "test:unit": "jest",
+    "build": "rimraf \"dist/**/*.js\" && tsc",
+    "test:lint": "eslint . --ext .ts"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.19.2",
+    "sequelize": "^6.37.3"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/jest": "^29.5.12",
+    "@types/node": "^20.12.8",
+    "@types/sequelize": "^4.28.20",
+    "@typescript-eslint/eslint-plugin": "^7.8.0",
+    "@typescript-eslint/parser": "^7.8.0",
+    "eslint": "^8.57.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-airbnb-typescript": "^18.0.0",
+    "rimraf": "^5.0.5",
+    "ts-jest": "^29.1.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5"
+  }
+}
