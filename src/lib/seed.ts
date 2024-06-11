@@ -2,7 +2,7 @@ export function processBrands(rawBrands: any) {
   const brandProducts:any[] = [];
   const brandStores:any[] = [];
 
-  const brands = rawBrands.data.map((brand: any) => {
+  const brands = rawBrands.map((brand: any) => {
     brand.products.forEach((product_id: string) => {
       brandProducts.push({
         product_id,

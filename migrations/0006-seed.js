@@ -1,15 +1,18 @@
-import { processBrands, processProducts, processStores } from '../dist/lib/seed';
+const { processBrands, processProducts, processStores } = require('../dist/lib/seed');
 
 const rawBrands = require('../data/brands.json')
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
+    console.log(0, rawBrands.data.length)
     const {
       brandProducts,
       brandStores,
       brands
     } = processBrands(rawBrands.data);
+    console.log(1, rawBrands.data.length)
     const products = processProducts(rawBrands.embedded.products);
+    console.log(2,rawBrands.embedded.products.length, rawBrands.embedded.stores.length )
     const stores = processStores(rawBrands.embedded.stores)
 
     await queryInterface.bulkInsert('brands', brands);

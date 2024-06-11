@@ -6,9 +6,7 @@ describe('processBrands', () => {
       brands,
       brandProducts,
       brandStores,
-    } = processBrands({
-      data: [],
-    });
+    } = processBrands([]);
 
     expect(brands).toEqual([]);
     expect(brandProducts).toEqual([]);
@@ -19,14 +17,12 @@ describe('processBrands', () => {
       brands,
       brandProducts,
       brandStores,
-    } = processBrands({
-      data: [{
-        id: 1,
-        products: [],
-        consolidated_products: [],
-        stores: [],
-      }],
-    });
+    } = processBrands([{
+      id: 1,
+      products: [],
+      consolidated_products: [],
+      stores: [],
+    }]);
 
     expect(brands).toEqual([{ id: 1 }]);
     expect(brandProducts).toEqual([]);
@@ -37,14 +33,12 @@ describe('processBrands', () => {
       brands,
       brandProducts,
       brandStores,
-    } = processBrands({
-      data: [{
-        id: 1,
-        products: [2],
-        consolidated_products: [3],
-        stores: [4],
-      }],
-    });
+    } = processBrands([{
+      id: 1,
+      products: [2],
+      consolidated_products: [3],
+      stores: [4],
+    }]);
 
     expect(brands).toEqual([{ id: 1 }]);
     expect(brandProducts).toEqual([{
@@ -88,6 +82,6 @@ describe('processStores', () => {
       latitude: 1,
       latitiude: 2,
     }]);
-    expect(products).toEqual([{ id: 1, pivot: '{}' }]);
+    expect(products).toEqual([{ latitude: 1 }]);
   });
 });

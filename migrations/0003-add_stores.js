@@ -6,8 +6,7 @@ module.exports = {
         defaultValue: Sequelize.UUIDV4,
         primaryKey: true,
       },
-      id: Sequelize.UUID,
-      brand_id: Sequelize.UUID,
+      // brand_id: id
       longitude: Sequelize.FLOAT,
       website: Sequelize.STRING,
       name: Sequelize.STRING,
