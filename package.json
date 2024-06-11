@@ -4,7 +4,7 @@
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "test": "npm run test:unit && npm run lint",
+    "test": "npm run test:unit && npm run test:lint",
     "start": "docker-compose up --build",
     "db:migrate": "sequelize-cli db:migrate",
     "test:unit": "jest",

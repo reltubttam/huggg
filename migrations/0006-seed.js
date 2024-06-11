@@ -1,55 +1,20 @@
+import { processBrands, processProducts, processStores } from '../dist/lib/seed';
+
 const rawBrands = require('../data/brands.json')
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    const brandProducts = []
-    const brandStores = []
-    const brands = rawBrands.data.map(brand => {
-      brand.products.forEach(product_id => {
-        brandProducts.push({
-          product_id,
-          brand_id: brand.id,
-          consolidated: false,
-        });
-      });
-      brand.consolidated_products.forEach(product_id => {
-        brandProducts.push({
-          product_id,
-          brand_id: brand.id,
-          consolidated: true,
-        });
-      });
-      
-      brand.stores.forEach(store_id => {
-        brandStores.push({
-          store_id,
-          brand_id: brand.id,
-          consolidated: true,
-        });
-      });
-      const newBrand = {...brand};
-      delete newBrand.products
-      delete newBrand.consolidated_products
-      delete newBrand.stores
-
-      return newBrand;
-    });
+    const {
+      brandProducts,
+      brandStores,
+      brands
+    } = processBrands(rawBrands.data);
+    const products = processProducts(rawBrands.embedded.products);
+    const stores = processStores(rawBrands.embedded.stores)
 
     await queryInterface.bulkInsert('brands', brands);
-    await queryInterface.bulkInsert('products', rawBrands.embedded.products.map(product => {
-      const newProduct = {
-        ...product,
-        pivot: JSON.stringify(product.pivot || {})
-      }
-      delete newProduct.brand_id
-
-      return newProduct
-    }));
-    await queryInterface.bulkInsert('stores', rawBrands.embedded.stores.map(store => {
-      const newStore = {...store};
-      delete newStore.latitiude;
-      return newStore
-    }));
+    await queryInterface.bulkInsert('products', products);
+    await queryInterface.bulkInsert('stores', stores);
     await queryInterface.bulkInsert('brand-products', brandProducts);
     await queryInterface.bulkInsert('brand-stores', brandStores);
     
