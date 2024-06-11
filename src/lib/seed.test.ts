@@ -78,10 +78,10 @@ describe('processProducts', () => {
 
 describe('processStores', () => {
   it('removes duplicate typo latitiude', async () => {
-    const products = processStores([{
+    const stores = processStores([{
       latitude: 1,
       latitiude: 2,
     }]);
-    expect(products).toEqual([{ latitude: 1 }]);
+    expect(stores).toEqual([{ latitude: 1 }]);
   });
 });

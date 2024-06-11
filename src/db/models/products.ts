@@ -1,5 +1,6 @@
 import { DataTypes, Model } from 'sequelize';
 import sequelize from '..';
+import { Brand } from './brands';
 
 interface IProduct extends Model {
   id: string
@@ -38,6 +39,16 @@ interface IProduct extends Model {
   open_graph_image_url: string
 
   pivot: string
+}
+
+interface IBrandProduct extends Model {
+  id: string
+  created_at: Date
+  updated_at: Date
+
+  brand_id: string
+  product_id: string
+  consolidated: boolean
 }
 
 const Product = sequelize.define<IProduct>(
@@ -86,8 +97,39 @@ const Product = sequelize.define<IProduct>(
   },
   {
     timestamps: false,
-  }
+  },
 );
+
+const BrandProduct = sequelize.define<IBrandProduct>(
+  'brand-products',
+  {
+    id: {
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
+      primaryKey: true,
+    },
+    created_at: DataTypes.DATE,
+    updated_at: DataTypes.DATE,
+
+    brand_id: DataTypes.UUID,
+    product_id: DataTypes.UUID,
+    consolidated: DataTypes.BOOLEAN,
+  },
+  {
+    timestamps: false,
+  },
+);
+
+Product.belongsToMany(Brand, {
+  through: BrandProduct,
+  foreignKey: 'product_id',
+  otherKey: 'brand_id',
+});
+Brand.belongsToMany(Product, {
+  through: BrandProduct,
+  foreignKey: 'brand_id',
+  otherKey: 'product_id',
+});
 
 export {
   IProduct,

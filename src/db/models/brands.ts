@@ -65,7 +65,7 @@ const Brand = sequelize.define<IBrand>(
   },
   {
     timestamps: false,
-  }
+  },
 );
 
 export {
