@@ -1,5 +1,7 @@
 import { processBrands, processProducts, processStores } from './seed';
 
+jest.mock('uuid', () => ({ v4: () => '123456789' }));
+
 describe('processBrands', () => {
   it('returns no data, given no data', async () => {
     const {
@@ -42,16 +44,19 @@ describe('processBrands', () => {
 
     expect(brands).toEqual([{ id: 1 }]);
     expect(brandProducts).toEqual([{
+      id: '123456789',
       brand_id: 1,
       consolidated: false,
       product_id: 2,
     },
     {
+      id: '123456789',
       brand_id: 1,
       consolidated: true,
       product_id: 3,
     }]);
     expect(brandStores).toEqual([{
+      id: '123456789',
       brand_id: 1,
       store_id: 4,
     }]);
@@ -77,11 +82,25 @@ describe('processProducts', () => {
 });
 
 describe('processStores', () => {
+  it('stores lat lng as numbers', async () => {
+    const stores = processStores([{
+      latitude: '1.1',
+      longitude: '2.2',
+    }]);
+    expect(stores).toEqual([{
+      latitude: 1.1,
+      longitude: 2.2,
+    }]);
+  });
   it('removes duplicate typo latitiude', async () => {
     const stores = processStores([{
-      latitude: 1,
-      latitiude: 2,
+      latitude: '1',
+      latitiude: '2',
+      longitude: '3',
     }]);
-    expect(stores).toEqual([{ latitude: 1 }]);
+    expect(stores).toEqual([{
+      latitude: 1,
+      longitude: 3,
+    }]);
   });
 });

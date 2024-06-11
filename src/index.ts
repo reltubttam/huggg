@@ -13,7 +13,7 @@ app.use(express.json());
 app.get('/brands/:brandId', brandRoute);
 app.get('/brands/:brandId/products', productsByBrandRoute);
 app.get('/brands/:brandId/stores', storesByBrandRoute);
-app.get('/product/:productId/stores', storesByProductRoute);
+app.get('/products/:productId/stores', storesByProductRoute);
 
 app.use(errorHandler);
 const runningApp = app.listen(PORT, () => {

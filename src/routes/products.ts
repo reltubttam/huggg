@@ -10,7 +10,7 @@ export default async function productsByBrandRoute(
   next: NextFunction,
 ) {
   try {
-    const { products } = await Brand.findOne({
+    const brand = await Brand.findOne({
       where: {
         id: req.params.brandId,
       },
@@ -19,13 +19,20 @@ export default async function productsByBrandRoute(
         model: Product,
         as: 'products',
       },
-    }) as any as { products: IProduct[] };
+    });
 
-    res.status(200).json({
-      products: formatProducts(products, req.params.brandId),
+    if (!brand) {
+      return res.status(404).json({
+        products: [],
+        ok: true,
+      });
+    }
+
+    return res.status(200).json({
+      products: formatProducts(brand.toJSON().products, req.params.brandId),
       ok: true,
     });
   } catch (err) {
-    next(err);
+    return next(err);
   }
 }

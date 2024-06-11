@@ -8,11 +8,18 @@ export default async function brandRoute(req: Request, res: Response, next: Next
       where: { id: req.params.brandId },
     });
 
-    res.status(200).json({
+    if (!brand) {
+      return res.status(404).json({
+        brand: null,
+        ok: true,
+      });
+    }
+
+    return res.status(200).json({
       brand,
       ok: true,
     });
   } catch (err) {
-    next(err);
+    return next(err);
   }
 }

@@ -1,3 +1,5 @@
+import { v4 as uuidv4 } from 'uuid';
+
 export function processBrands(rawBrands: any) {
   const brandProducts:any[] = [];
   const brandStores:any[] = [];
@@ -5,6 +7,7 @@ export function processBrands(rawBrands: any) {
   const brands = rawBrands.map((brand: any) => {
     brand.products.forEach((product_id: string) => {
       brandProducts.push({
+        id: uuidv4(),
         product_id,
         brand_id: brand.id,
         consolidated: false,
@@ -12,6 +15,7 @@ export function processBrands(rawBrands: any) {
     });
     brand.consolidated_products.forEach((product_id:string) => {
       brandProducts.push({
+        id: uuidv4(),
         product_id,
         brand_id: brand.id,
         consolidated: true,
@@ -20,6 +24,7 @@ export function processBrands(rawBrands: any) {
 
     brand.stores.forEach((store_id: string) => {
       brandStores.push({
+        id: uuidv4(),
         store_id,
         brand_id: brand.id,
       });
@@ -53,8 +58,13 @@ export function processProducts(products: any[]) {
 
 export function processStores(stores: any[]) {
   return stores.map((store:any) => {
-    const newStore = { ...store };
+    const newStore = {
+      ...store,
+      latitude: store.latitude ? parseFloat(store.latitude) : null,
+      longitude: store.longitude ? parseFloat(store.longitude) : null,
+    };
     delete newStore.latitiude;
+    delete newStore.brand_id;
     return newStore;
   });
 }
