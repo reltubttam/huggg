@@ -82,7 +82,7 @@ describe('processProducts', () => {
 });
 
 describe('processStores', () => {
-  it('stores lat lng as numbers', async () => {
+  it('stores lat lng as numbers for future proofing', async () => {
     const stores = processStores([{
       latitude: '1.1',
       longitude: '2.2',

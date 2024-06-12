@@ -16,10 +16,13 @@ describe('formatStores', () => {
   it('reintroduces latitiude for backwards compatibility', async () => {
     const stores = formatStores([{
       latitude: 2,
+      longitude: 3,
     }], 'brandId');
     expect(stores).toEqual([{
-      latitude: 2,
-      latitiude: 2,
+      'brand-stores': undefined,
+      latitude: '2',
+      latitiude: '2',
+      longitude: '3',
       brand_id: 'brandId',
     }]);
   });

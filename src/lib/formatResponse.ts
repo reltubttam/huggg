@@ -10,7 +10,7 @@ export function formatProducts(products: any[], brandId:string) {
 export function formatStores(stores: any[], brandId:string) {
   return stores.map((store:any) => ({
     ...store,
-    latitiude: store.latitude,
+    latitiude: `${store.latitude}`,
     latitude: `${store.latitude}`,
     longitude: `${store.longitude}`,
     brand_id: brandId,
